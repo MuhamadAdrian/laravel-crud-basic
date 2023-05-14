@@ -34,7 +34,7 @@ class MahasiswaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nim_mhs' => 'required|numeric|unique:mahasiswa,nim_mhs',
+            'nim_mhs' => 'required|numeric|max_digits:10|unique:mahasiswa,nim_mhs',
             'nama_mhs' => 'required',
             'ttl_mhs' => 'required',
             'alamat' => 'required',
@@ -44,6 +44,7 @@ class MahasiswaController extends Controller
             'agama_mhs' => 'required',
         ], [
             'nim_mhs.required' => 'Nomor NIM wajib diisi',
+            'nim_mhs.max_digits' => 'Angka tidak boleh lebih dari 10 digits',
             'nim_mhs.numeric' => 'Nomor NIM wajib diisi dalam angka',
             'nama_mhs.required' => 'Nama wajib diisi',
             'ttl_mhs.required' => 'Ttl wajib diisi',
