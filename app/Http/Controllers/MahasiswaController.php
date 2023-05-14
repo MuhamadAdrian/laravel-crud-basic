@@ -55,11 +55,6 @@ class MahasiswaController extends Controller
             'agama_mhs.required' => 'Agama wajib diisi',
         ]);
 
-        $foto_file = $request->file('gambar');
-        $foto_ekstensi = $foto_file->extension();
-        $gambar_nama = date('ymdhis'). ".". $foto_ekstensi;
-        $foto_file->move(public_path('gambar'), $gambar_nama);
-
         $data = [
             'nim_mhs' => $request->input('nim_mhs'),
             'nama_mhs' => $request->input('nama_mhs'),
@@ -69,8 +64,16 @@ class MahasiswaController extends Controller
             'email_mhs' => $request->input('email_mhs'),
             'kota_mhs' => $request->input('kota_mhs'),
             'agama_mhs' => $request->input('agama_mhs'),
-            'gambar' => $gambar_nama,
         ];
+
+        if($request->hasFile('gambar')) {
+            $foto_file = $request->file('gambar');
+            $foto_ekstensi = $foto_file->extension();
+            $gambar_nama = date('ymdhis'). ".". $foto_ekstensi;
+            $foto_file->move(public_path('gambar'), $gambar_nama);
+
+            $data['gambar'] = $gambar_nama;
+        }
 
         mahasiswa::create($data);
 
